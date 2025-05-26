@@ -7,14 +7,25 @@ export const {
     DOCTOR_COLLECTION_ID, 
     APPOINTMENT_COLLECTION_ID,
     NEXT_PUBLIC_BUCKET_ID: BUCKET_ID, 
-    ENDPOINT 
+    NEXT_PUBLIC_ENDPOINT: ENDPOINT 
 } = process.env
 
 const client = new sdk.Client();
 
-if (!ENDPOINT) {
-    throw new Error('ENDPOINT is not defined in environment variables');
+if (!PROJECT_ID) {
+  throw new Error('PROJECT_ID is not defined in environment variables');
 }
+
+if (!API_KEY) {
+  throw new Error('API_KEY is not defined in environment variables');
+}
+
+if (!ENDPOINT) {
+  throw new Error('ENDPOINT is not defined in environment variables');
+}
+
+console.log("PROJECT_ID:", process.env.PROJECT_ID);
+
 
 client
     .setEndpoint(ENDPOINT)
