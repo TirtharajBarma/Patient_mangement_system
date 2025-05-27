@@ -1,0 +1,113 @@
+/* Custom styles for react-datepicker to match the dark theme */
+.react-datepicker {
+  background-color: #1a1a1a; /* Matches bg-dark-400 */
+  border: 1px solid #444; /* Matches border-dark-500 */
+  color: #fff; /* Light text for readability */
+  font-family: "Inter", sans-serif; /* Match your app's font */
+}
+
+/* Header (month/year) */
+.react-datepicker__header {
+  background-color: #2a2a2a; /* Slightly lighter than bg-dark-400 */
+  border-bottom: 1px solid #444;
+  color: #fff;
+}
+
+/* Navigation arrows */
+.react-datepicker__navigation {
+  top: 10px;
+}
+
+.react-datepicker__navigation--previous {
+  border-right-color: #fff;
+}
+
+.react-datepicker__navigation--next {
+  border-left-color: #fff;
+}
+
+/* Month and year text in header */
+.react-datepicker__current-month,
+.react-datepicker__year-text {
+  color: #fff;
+}
+
+/* Days of the week (Su, Mo, etc.) */
+.react-datepicker__day-name {
+  color: #ccc;
+}
+
+/* Individual days */
+.react-datepicker__day {
+  color: #fff;
+}
+
+.react-datepicker__day:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: #007bff; /* A blue accent for selected day */
+  color: #fff;
+}
+
+.react-datepicker__day--outside-month {
+  color: #666;
+}
+
+/* Year dropdown */
+.react-datepicker__year-dropdown {
+  background-color: #1a1a1a; /* Matches bg-dark-400 */
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.react-datepicker__year-option {
+  color: #fff;
+}
+
+.react-datepicker__year-option:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+/* Ensure the dropdown is scrollable */
+.react-datepicker__year-dropdown--scrollable {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Time select (if used) */
+.react-datepicker__time-container {
+  background-color: #1a1a1a;
+  border-left: 1px solid #444;
+}
+
+.react-datepicker__time-box {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+.react-datepicker__time-list-item {
+  color: #fff;
+}
+
+.react-datepicker__time-list-item:hover {
+  background-color: #444;
+}
+
+/* Wrapper to ensure proper alignment */
+.date-picker {
+  width: 100%;
+}
+
+.date-picker input {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  width: 100%;
+  padding: 8px;
+  outline: none;
+}
