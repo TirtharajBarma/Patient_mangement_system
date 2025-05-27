@@ -7,12 +7,12 @@ import { Form, FormControl } from "@/components/ui/form"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 import { useState } from "react"
-import { UserFormValidation } from "@/lib/validation"
+import { PatientFormValidation, UserFormValidation } from "@/lib/validation"
 import { useRouter } from "next/navigation"
-import { createUser } from "@/lib/actions/patient.actions"
+import { createUser, registerPatient } from "@/lib/actions/patient.actions"
 import { FormFieldType } from "./PatientForm"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
-import { Doctors, GenderOptions, IdentificationTypes } from "@/constants"
+import { Doctors, GenderOptions, IdentificationTypes, PatientFormDefaultValues } from "@/constants"
 import { Label } from "../ui/label"
 import Image from "next/image"
 import { SelectItem } from "../ui/select"
@@ -24,33 +24,50 @@ const RegisterForm = ({user}: {user: User}) => {
     const router = useRouter();
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof UserFormValidation>>({
-    resolver: zodResolver(UserFormValidation),
+  const form = useForm<z.infer<typeof PatientFormValidation>>({
+    resolver: zodResolver(PatientFormValidation),
     defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
+        ...PatientFormDefaultValues,
+        name: user?.name || '',
+        email: user?.email || '',
+        phone: user?.phone || '',
     },
   })
  
-  // 2. Define a submit handler.
-  async function onSubmit({name, email, phone}: z.infer<typeof UserFormValidation>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    // console.log(values)
+  // 2. Define a submit handler - FIXED: Accept all form values
+  async function onSubmit(values: z.infer<typeof PatientFormValidation>) {
+    SetIsLoading(true);
+    let formData;
+    if (values.identificationDocument && values.identificationDocument.length > 0) {    
+      const blobFile = new Blob([values.identificationDocument[0]], {
+        type: values.identificationDocument[0].type,
+      });
 
-     SetIsLoading(true);
+      formData = new FormData();
+      formData.append('blobFile', blobFile);
+      formData.append('fileName', values.identificationDocument[0].name);
+    }
 
     try {
-        const userData = { name, email, phone };
-        const user = await createUser(userData);
-        if(user) router.push(`/patients/${user.$id}/register`);
+        // Extract the fields needed for user creation
+        const patientData = {
+        ...values,
+        userId: user.$id,
+        birthDate: new Date(values.birthDate),
+        identificationDocument: formData,
+      };
+
+      // @ts-ignore
+      const patient = await registerPatient(patientData);
+      if (patient) router.push(`/patients/${user.$id}/new-appointment`);
 
     } catch (error) {
       console.log(error);
+    } finally {
+      SetIsLoading(false);
     }
-
   }
+
   return (
     <div>
       <Form {...form}>
@@ -60,7 +77,6 @@ const RegisterForm = ({user}: {user: User}) => {
             <h1 className="text-3xl">Welcome 👋</h1>
             <p className="text-dark-700">Let us know more about yourself</p>
         </section>
-
 
         {/* Personal Information Section */}
         <section className="space-y-6">
@@ -114,7 +130,7 @@ const RegisterForm = ({user}: {user: User}) => {
                 label = 'Gender'
                 renderSkeleton={(field) => (
                     <FormControl>
-                        <RadioGroup className="flex h-11 gap-6 xl:justify-between" onValueChange={field.onChange} defaultValue="field.value">
+                        <RadioGroup className="flex h-11 gap-6 xl:justify-between" onValueChange={field.onChange} defaultValue={field.value}>
                             {GenderOptions.map((option) => (
                                 <div className="radio-group" key={option}>
                                     <RadioGroupItem value={option} id={option} />
@@ -165,7 +181,6 @@ const RegisterForm = ({user}: {user: User}) => {
             />
         </div>
         
-
         {/* Medical Information Section */}
         <section className="space-y-6">
             <div className="mb-9 space-y-1">
@@ -250,12 +265,10 @@ const RegisterForm = ({user}: {user: User}) => {
             />
         </div>
 
-
         {/* Identification section */}
         <section className="space-y-6">
             <div className="mb-9 space-y-1">
                 <h2 className="sub-header">Identification and Verification</h2>
-
             </div>
         </section>
 
@@ -297,7 +310,6 @@ const RegisterForm = ({user}: {user: User}) => {
         <section className="space-y-6">
             <div className="mb-9 space-y-1">
                 <h2 className="sub-header">Consent and Privacy</h2>
-
             </div>
         </section>
         
@@ -310,7 +322,7 @@ const RegisterForm = ({user}: {user: User}) => {
         <CustomFormField
             fieldType={FormFieldType.CHECKBOX}
             control={form.control}
-            name='discloserConsent'
+            name='disclosureConsent'
             label="I consent to Disclosure of Information"
         />
         <CustomFormField
@@ -319,7 +331,6 @@ const RegisterForm = ({user}: {user: User}) => {
             name='privacyConsent'
             label="I consent to Privacy Policy"
         />
-
 
         <SubmitButton isLoading={isLoading}> Get Started </SubmitButton>
       </form>
