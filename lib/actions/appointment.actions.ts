@@ -5,6 +5,7 @@ import { APPOINTMENT_COLLECTION_ID, DATABASE_ID, databases, messaging, } from ".
 import { Appointment } from "@/types/appwrite.types";
 import { revalidatePath } from "next/cache";
 import { formatDateTime } from "../utils";
+import { getPatient } from "./patient.actions";
 
 export const createAppointment = async(appointment: CreateAppointmentParams) => {
     try {
@@ -41,13 +42,27 @@ export const getRecentAppointmentList = async() => {
             [Query.orderDesc('$createdAt')]
         );
 
+        // Fetch and attach patient object for each appointment
+        const documentsWithPatient = await Promise.all(
+            appointments.documents.map(async (appointment) => {
+                // If appointment.patient is an ID, fetch the patient object
+                if (appointment.patient && typeof appointment.patient === "string") {
+                    const patientObj = await getPatient(appointment.patient);
+                    return { ...appointment, patient: patientObj };
+                }
+                return appointment;
+            })
+        );
+
+        // console.log(documentsWithPatient);
+
         const initialCounts = {
             scheduledCount: 0,
             pendingCount: 0,
             cancelledCount: 0,
         }
 
-        const counts = (appointments.documents as Appointment[]).reduce((acc, appointment) => {
+        const counts = (documentsWithPatient as Appointment[]).reduce((acc, appointment) => {
             if(appointment.status === 'scheduled'){
                 acc.scheduledCount += 1;
             }
@@ -64,7 +79,7 @@ export const getRecentAppointmentList = async() => {
         const data = {
             totalCount: appointments.total,
             ...counts,
-            documents: appointments.documents
+            documents: documentsWithPatient
         }
 
         return JSON.parse(JSON.stringify(data));
