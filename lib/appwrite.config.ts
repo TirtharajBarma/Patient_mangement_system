@@ -24,7 +24,7 @@ if (!ENDPOINT) {
   throw new Error('ENDPOINT is not defined in environment variables');
 }
 
-console.log("PROJECT_ID:", process.env.PROJECT_ID);
+// console.log("PROJECT_ID:", process.env.PROJECT_ID);
 
 
 client

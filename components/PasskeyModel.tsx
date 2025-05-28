@@ -32,6 +32,7 @@ const PasskeyModel = () => {
     const [error, setError] = useState('');
     const path = usePathname();
 
+    // auto login
     const encryptedKey = typeof window !== 'undefined' ? window.localStorage.getItem('accessKey') : null;
 
     useEffect(() => {
