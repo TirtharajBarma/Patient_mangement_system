@@ -94,8 +94,8 @@ const config = {
   		},
   		backgroundImage: {
 		appointments: `url('/assets/images/appointments-bg.png')`,
-		pending: `url('/assets/images/pending_bg.png')`,
-		cancelled: `url('/assets/images/cancelled_bg.png')`,
+		pending: `url('/assets/images/pending-bg.png')`,
+		cancelled: `url('/assets/images/cancelled-bg.png')`,
 		},
 
   		keyframes: {
