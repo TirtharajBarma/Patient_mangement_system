@@ -14,7 +14,7 @@ const FileUploader = ({files, onChange}: FileUploaderProps) => {
   const onDrop = useCallback((acceptedFiles : File[]) => {
     // Do something with the files
     onChange(acceptedFiles)
-  }, [])
+  }, [onChange])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
   return (
