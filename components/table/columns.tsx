@@ -24,7 +24,11 @@ export const columns: ColumnDef<Appointment>[] = [
     {
         accessorKey: 'patient',
         header: 'Patient',
-        cell: ({row}) => <p className="text-14-medium">{row.original.patient.name}</p>
+        cell: ({row}) => (
+          <p className="text-14-medium">
+            {row.original.patient?.name || "Unknown"}
+          </p>
+        )
         // needs the full patient object, not just the ID.
         
     },
@@ -83,13 +87,13 @@ export const columns: ColumnDef<Appointment>[] = [
                 <div className="flex gap-1">
                     <AppointmentModel 
                       type='schedule' 
-                      patientId={data.patient.$id || 'default-patient-id'} 
+                      patientId={data.patient?.$id || 'default-patient-id'} 
                       userId={data.userId}
                       appointment={data}
                     />
                     <AppointmentModel 
                       type='cancel' 
-                      patientId={data.patient.$id || 'default-patient-id'} 
+                      patientId={data.patient?.$id || 'default-patient-id'} 
                       userId={data.userId}
                       appointment={data}
                     />

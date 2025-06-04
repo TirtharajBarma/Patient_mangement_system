@@ -3,8 +3,11 @@ import { getUser } from '@/lib/actions/patient.actions';
 import Image from 'next/image';
 import React from 'react';
 
-const Register = async ({ params }: { params: { userId: string } }) => {
-  const userId = params?.userId; // Ensure params.userId is safely accessed
+// ✅ Correct
+const Register = async ({ params }: { params: Promise<{ userId: string }> }) => {
+  const resolvedParams = await params;
+  const userId = resolvedParams?.userId;
+  
   if (!userId) {
     throw new Error("User ID is required");
   }

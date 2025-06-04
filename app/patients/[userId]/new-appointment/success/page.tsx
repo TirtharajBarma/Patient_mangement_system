@@ -6,8 +6,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const SuccessPage = async ({params: {userId}, searchParams}: SearchParamProps) => {
-    const appointmentId = (searchParams?.appointmentId as string) || '';
+const SuccessPage = async ({params, searchParams}: SearchParamProps) => {
+    // Await params and searchParams before accessing their properties
+    const { userId } = await params;
+    const resolvedSearchParams = await searchParams;
+    
+    const appointmentId = (resolvedSearchParams?.appointmentId as string) || '';
     const appointment = await getAppointment(appointmentId);
 
     const doctor = Doctors.find((doc) => doc.name === appointment.primaryPhysician)
@@ -31,6 +35,7 @@ const SuccessPage = async ({params: {userId}, searchParams}: SearchParamProps) =
                 height={300}
                 width={200}
                 alt='success'
+                unoptimized
             />
             <h2 className='header mb-6 max-w-[600px] text-center'>
                 Your <span className='text-green-500'>appointment request</span> has been successfully submitted

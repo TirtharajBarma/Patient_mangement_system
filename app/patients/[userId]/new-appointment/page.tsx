@@ -6,7 +6,11 @@ import Link from "next/link";
 import AppointmentForm from "@/components/forms/AppointmentForm";
 import { getPatient } from "@/lib/actions/patient.actions";
 
-export default async function NewAppointment({params: {userId}}: SearchParamProps) {
+// ✅ Correct
+export default async function NewAppointment({params}: SearchParamProps) {
+  const resolvedParams = await params;
+  const { userId } = resolvedParams;
+  
     const patient = await getPatient(userId);
 
   return(

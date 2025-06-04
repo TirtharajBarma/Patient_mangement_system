@@ -74,31 +74,22 @@ export const registerPatient = async({identificationDocument, ...patient}: Regis
     }
 }
 
-// export const getPatient = async(userId: string) => {
-//     try {
-//         const patient = await databases.listDocuments(
-//             DATABASE_ID!,
-//             PATIENT_COLLECTION_ID!,
-//             [
-//                 Query.equal('userId', userId)
-//             ]
-//         )
-//         return JSON.parse(JSON.stringify(patient.documents[0]));
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-
-export const getPatient = async(patientId: string) => {
+export const getPatient = async(userId: string) => {
     try {
-        const patient = await databases.getDocument(
+        const patient = await databases.listDocuments(
             DATABASE_ID!,
             PATIENT_COLLECTION_ID!,
-            patientId
-        );
-        return JSON.parse(JSON.stringify(patient));
+            [
+                Query.equal('userId', userId)
+            ]
+        )
+        if (!patient.documents || patient.documents.length === 0) {
+            return null;
+        }
+        return JSON.parse(JSON.stringify(patient.documents[0]));
     } catch (error) {
         console.log(error);
     }
 }
+
 
