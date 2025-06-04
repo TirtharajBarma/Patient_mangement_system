@@ -5,9 +5,10 @@ import PatientForm from "@/components/forms/PatientForm";
 import Link from "next/link";
 import PasskeyModel from "@/components/PasskeyModel";
 
-export default function Home({searchParams}: SearchParamProps) {
+export default async function Home({searchParams}: SearchParamProps) {
 
-  const isAdmin = searchParams.admin === 'true';
+  const resolvedSearchParams = await searchParams;
+  const isAdmin = resolvedSearchParams.admin === 'true';
 
   return(
     <div className="flex h-screen max-h-screen">
