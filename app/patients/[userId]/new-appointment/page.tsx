@@ -4,31 +4,49 @@ import { Button } from "@/components/ui/button";
 import PatientForm from "@/components/forms/PatientForm";
 import Link from "next/link";
 import AppointmentForm from "@/components/forms/AppointmentForm";
-import { getPatient } from "@/lib/actions/patient.actions";
+import PatientAppointmentWrapper from "@/components/forms/PatientAppointmentWrapper";
+import { getPatient, getPatients } from "@/lib/actions/patient.actions";
+import { Patient } from "@/types/appwrite.types";
 
 // ✅ Correct
 export default async function NewAppointment({params}: SearchParamProps) {
   const resolvedParams = await params;
   const { userId } = resolvedParams;
   
-    const patient = await getPatient(userId);
+  const patients: Patient[] = await getPatients(userId);
 
+  // If no patients, show a message or redirect to register
+  if (!patients || patients.length === 0) {
+    return (
+      <div className="flex h-screen max-h-screen items-center justify-center">
+        <div className="text-center">
+          <p>No patients found. Please register a patient first.</p>
+          <Link href={`/patients/${userId}/register`}>
+            <Button className="mt-4">Register Patient</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Render patient selection dropdown and appointment form
   return(
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container my-auto">
         <div className="sub-container max-w-[866px] flex-1 justify-between">
           
-          <Image src='/assets/icons/logo-full.svg' 
-          height={1000} 
-          width={1000} 
-          alt="patient" 
-          className="mb-12 h-10 w-fit" />
+          <div className="flex items-center justify-between mb-6">
+            <Image src='/assets/icons/logo-full.svg' 
+              height={1000} 
+              width={1000} 
+              alt="patient" 
+              className="mb-12 h-10 w-fit" />
+            <Link href={`/patients/${userId}/register`}>
+              <Button variant="outline" className="ml-4">Back to Patient Form</Button>
+            </Link>
+          </div>
 
-          <AppointmentForm 
-            type = 'create'
-            userId = {userId}
-            patientId = {patient.$id}
-          />
+          <PatientAppointmentWrapper userId={userId} patients={patients} />
 
           <p className="copyright py-12">© 2025 Tirtharaj</p>
 

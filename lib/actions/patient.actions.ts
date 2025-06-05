@@ -92,4 +92,20 @@ export const getPatient = async(userId: string) => {
     }
 }
 
+export const getPatients = async (userId: string) => {
+    try {
+        const patients = await databases.listDocuments(
+            DATABASE_ID!,
+            PATIENT_COLLECTION_ID!,
+            [
+                Query.equal('userId', userId)
+            ]
+        );
+        return JSON.parse(JSON.stringify(patients.documents));
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
 

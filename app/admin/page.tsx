@@ -11,7 +11,7 @@ import { columns } from '@/components/table/columns'
 
 const page = async() => {
     const appointments = await getRecentAppointmentList();
-    // console.log('Appointments Data:', appointments.documents);
+    console.log('Appointments Data:', appointments.documents);
 
   return (
     <div className='mx-auto flex max-w-7xl flex-col space-y-14'>
