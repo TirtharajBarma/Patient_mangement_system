@@ -103,7 +103,7 @@ export const updateAppointment = async({appointmentId, userId, appointment, type
         else{
             // SMS notification
             const smsMessage = `
-            Hi, it's Tirtharaj.
+            Hi, it's Tirtharaj [admin].
             ${type === 'schedule' 
                 ? `your appointment has been scheduled for ${formatDateTime(appointment.schedule!).dateTime} with Dr. ${appointment.primaryPhysician}`
                 : `We regret to inform you that your appointment has been cancelled for the following reason. Reason: ${appointment.cancellationReason}`
