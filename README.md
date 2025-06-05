@@ -1,36 +1,177 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏥 Patient Management System
 
-## Getting Started
+A **modern, full-stack web application** for managing patient registrations and appointments, featuring **Next.js**, **Appwrite**, **Twilio**, and **Tailwind CSS**. This system offers a seamless experience for both patients and administrators with intuitive workflows and modern design.
 
-First, run the development server:
+<details>
+  <summary>🚀 Features</summary>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **User Registration**: Secure user accounts for managing patient data.
+- **Patient Management**: Add, update, and manage multiple patients under one account.
+- **Appointment Booking**: Schedule appointments with ease.
+- **SMS Notifications**: Receive appointment confirmations directly via Twilio.
+- **Admin Dashboard**:
+  - Authorized access only.
+  - View, schedule, and cancel appointments.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+</details>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<details>
+  <summary>🛠 Tech Stack</summary>
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Frontend**: Next.js, React, TypeScript, Tailwind CSS, Shadcn UI, React Hook Form, Zod
+- **Backend**: Appwrite (via node-appwrite SDK)
+- **Messaging Service**: Twilio for SMS notifications
 
-## Learn More
+</details>
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎯 Getting Started
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Prerequisites
 
-## Deploy on Vercel
+- Node.js (v16 or above)
+- Appwrite instance set up with required database collections
+- Twilio account for SMS functionality
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Installation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/TirtharajBarma/Patient_mangement_system.git
+   cd patient-management-system
+    ```
+
+2. **Install dependencies**:
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Set up environment variables**:
+
+   * Copy `.env.example` to `.env.local`.
+   * Fill in the following values:
+
+     ```env
+     PROJECT_ID=
+     API_KEY=
+     DATABASE_ID=
+     PATIENT_COLLECTION_ID=
+     DOCTOR_COLLECTION_ID=
+     APPOINTMENT_COLLECTION_ID=
+     NEXT_PUBLIC_BUCKET_ID=
+     NEXT_PUBLIC_ENDPOINT="https://fra.cloud.appwrite.io/v1"
+     NEXT_PUBLIC_ADMIN_PASSKEY="Your access Key"
+     ```
+
+4. **Run the development server**:
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 🛠 Step-by-Step Configuration
+
+### **1. Configure Appwrite**
+
+1. **Set up Appwrite**:
+
+   * Install and launch the [Appwrite server](https://appwrite.io/docs/installation).
+   * Create a new project in the Appwrite console.
+
+2. **Set up collections**:
+
+   * Navigate to the **Database** section.
+   * Create the following collections:
+
+     * **Users**: To store user information.
+     * **Patients**: To store patient details.
+     * **Appointments**: To manage appointment data.
+
+3. **Add environment variables**:
+
+   * Go to your `.env.local` file and configure:
+
+     ```env
+     NEXT_PUBLIC_ENDPOINT=<Your Appwrite Endpoint>
+     PROJECT_ID=<Your Appwrite Project ID>
+     ```
+
+---
+
+### **2. Configure Twilio**
+
+1. **Create a Twilio account**:
+   Visit [Twilio](https://www.twilio.com/) and sign up for an account.
+2. **Obtain a Twilio phone number**:
+
+   * Go to the **Phone Numbers** section.
+   * Click **Get a Number** to acquire a phone number.
+3. **Set up Verified Caller ID**:
+
+   * Navigate to **Phone Numbers → Manage → Verified Caller ID**.
+   * Add your personal phone number and verify it.
+4. **Retrieve Twilio credentials**:
+
+   * Go to the **Dashboard** and copy your **Account SID**, **Auth Token** and **Sender number** .
+   * Add these credentials to your `.env` file.
+
+5. **Integrate Twilio in Appwrite**:
+
+   * In your Appwrite project, add a function for handling Twilio SMS notifications.
+   * Use the Twilio SDK in your Appwrite function to send appointment confirmations.
+
+
+---
+
+> 🚨 **Disclaimer for Twilio**  
+> 🔴 **For demo purposes, Twilio messaging will only work with your own verified phone number.**  
+> - You must create a Twilio account and obtain a phone number and credentials.  
+> - Paste these credentials into your Appwrite environment configuration.  
+> - Set up your verified number:  
+>   1. Go to **Phone Number → Manage → Verified Caller ID**.  
+>   2. Add your own phone number.  
+
+---
+
+## ⚙️ Functionality
+
+### **Patient Management**
+
+* Add, update, and manage multiple patients under a user account.
+* Store personal, contact, and medical information for each patient.
+
+### **Appointment Scheduling**
+
+* Book appointments with doctors easily.
+* Admins can view, approve, or cancel appointments.
+
+### **SMS Notifications**
+
+* Automated SMS confirmation sent to users after appointment bookings.
+
+### **Admin Dashboard**
+
+* Locked and accessible only to authorized users.
+* Includes an overview of all appointments and patient data.
+* Provides options for modifying appointment schedules.
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Feel free to submit pull requests or open issues to discuss ideas or report bugs.
+
+---
+
+
+### Developed with ❤️ by [Tirtharaj Barma](https://github.com/TirtharajBarma)
