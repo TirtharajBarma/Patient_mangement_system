@@ -1,5 +1,4 @@
-// "use client"
-
+"use server";
 import { DataTable } from '@/components/table/DataTable'
 import StatCard from '@/components/StatCard'
 import { getRecentAppointmentList } from '@/lib/actions/appointment.actions'
@@ -7,23 +6,45 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { columns } from '@/components/table/columns'
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import jwt from "jsonwebtoken";
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET environment variable is not defined");
+}
 
 const page = async() => {
-    const appointments = await getRecentAppointmentList();
-    // console.log('Appointments Data:', appointments.documents);
+  const cookieStore = await cookies();
+  const token = cookieStore.get("admin_jwt")?.value;
+
+  let isAdmin = false;
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET) as { role?: string };
+      isAdmin = decoded.role === "admin";
+    } catch (err) {
+      isAdmin = false;
+    }
+  }
+
+  if (!isAdmin) {
+    redirect("/");
+  }
+  const appointments = await getRecentAppointmentList();
+  // console.log('Appointments Data:', appointments.documents);
 
   return (
     <div className='mx-auto flex max-w-7xl flex-col space-y-14'>
       <header className='admin-header'>
         <Link href='/' className='cursor-pointer'>
-            <Image 
-                src='/assets/icons/logo-full.svg'
-                height={32}
-                width={162}
-                alt='logo'
-                className='h-8 w-fit'
-            />
+            <Image src='/assets/icons/medinest-logo.png' 
+                height={300} 
+                width={300} 
+                alt="patient" 
+                className="h-[165px] w-fit -my-8" />
         </Link>
         <p className='text-16-semibold'>Admin Dashboard</p>
       </header>

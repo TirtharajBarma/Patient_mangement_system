@@ -47,15 +47,6 @@ export const registerPatient = async({identificationDocument, ...patient}: Regis
             )
             file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile)
         }
-
-        // console.log(
-        //     {
-        //          identificationDocumentId: file?.$id || null,
-        //          identificationDocumentUrl: `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`,
-        //     }
-        // )
-
-        // console.log({gender: patient.gender});
         
         const newPatient = await databases.createDocument(
             DATABASE_ID!,

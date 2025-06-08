@@ -34,18 +34,204 @@
 	},
 	"records": [
 		{
-			"gridSize": 10,
-			"name": "",
-			"meta": {},
-			"id": "document:document",
-			"typeName": "document"
+			"id": "pointer:pointer",
+			"typeName": "pointer",
+			"x": 647.4292151448769,
+			"y": 1179.9022773172371,
+			"lastActivityTimestamp": 1749416479860,
+			"meta": {}
 		},
 		{
+			"x": 1692.1139697663561,
+			"y": 201.2714509528005,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
 			"meta": {},
-			"id": "page:page",
-			"name": "Page 1",
-			"index": "a1",
-			"typeName": "page"
+			"id": "shape:iap1RIWP6qrUs9nbp4VDO",
+			"type": "text",
+			"props": {
+				"color": "black",
+				"size": "m",
+				"w": 53.296875,
+				"font": "draw",
+				"textAlign": "start",
+				"autoSize": true,
+				"scale": 1,
+				"richText": {
+					"type": "doc",
+					"content": [
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": "JWT"
+								}
+							]
+						}
+					]
+				}
+			},
+			"parentId": "page:page",
+			"index": "a41qm",
+			"typeName": "shape"
+		},
+		{
+			"x": 237.62234735512308,
+			"y": -233.7384073788568,
+			"z": 0.6492912665752172,
+			"meta": {},
+			"id": "camera:page:page",
+			"typeName": "camera"
+		},
+		{
+			"editingShapeId": null,
+			"croppingShapeId": null,
+			"selectedShapeIds": [],
+			"hoveredShapeId": null,
+			"erasingShapeIds": [],
+			"hintingShapeIds": [],
+			"focusedGroupId": null,
+			"meta": {},
+			"id": "instance_page_state:page:page",
+			"pageId": "page:page",
+			"typeName": "instance_page_state"
+		},
+		{
+			"x": 115.6641003100284,
+			"y": 903.979402040512,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
+			"meta": {},
+			"id": "shape:s7TLfb1Y1mI31o-GEReI5",
+			"type": "text",
+			"props": {
+				"color": "black",
+				"size": "m",
+				"w": 1136.0078125,
+				"font": "draw",
+				"textAlign": "start",
+				"autoSize": true,
+				"scale": 1,
+				"richText": {
+					"type": "doc",
+					"content": [
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": "page.tsx -> Datatable.tsx -> columns.tsx -> AppointmentMode.tsx -> AppointmentForm.tsx "
+								}
+							]
+						}
+					]
+				}
+			},
+			"parentId": "page:page",
+			"index": "a21lU",
+			"typeName": "shape"
+		},
+		{
+			"x": 1698.527212504032,
+			"y": 266.5108545619554,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
+			"meta": {},
+			"id": "shape:JgGHNzupMth9f-K81ydy6",
+			"type": "text",
+			"props": {
+				"color": "black",
+				"size": "m",
+				"w": 806.8046875,
+				"font": "draw",
+				"textAlign": "start",
+				"autoSize": true,
+				"scale": 1,
+				"richText": {
+					"type": "doc",
+					"content": [
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": "1. Client: Enter passkey → POST to /api/admin-login"
+								}
+							]
+						},
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": "2. Server: Validate passkey → Generate JWT → Set JWT as cookie"
+								}
+							]
+						},
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": "3. Client: Automatically stores JWT in browser"
+								}
+							]
+						},
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": "4. Client: Request /admin → Browser sends JWT in cookie"
+								}
+							]
+						},
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": "5. Server: Verify JWT → Render admin page or redirect"
+								}
+							]
+						},
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							}
+						}
+					]
+				}
+			},
+			"parentId": "page:page",
+			"index": "a3C1H",
+			"typeName": "shape"
 		},
 		{
 			"x": 10.340328701214958,
@@ -127,6 +313,12 @@
 																	"text": "getRecentAppointmentList() fetches appointments (including documents, an array of Appointment objects)."
 																}
 															]
+														},
+														{
+															"type": "paragraph",
+															"attrs": {
+																"dir": "auto"
+															}
 														}
 													]
 												}
@@ -175,6 +367,12 @@
 																	"text": "appointments.documents is passed as data to DataTable."
 																}
 															]
+														},
+														{
+															"type": "paragraph",
+															"attrs": {
+																"dir": "auto"
+															}
 														}
 													]
 												}
@@ -240,6 +438,12 @@
 																	"text": "The actions column passes the entire Appointment object (data), along with patient.$id and userId, to AppointmentModel."
 																}
 															]
+														},
+														{
+															"type": "paragraph",
+															"attrs": {
+																"dir": "auto"
+															}
 														}
 													]
 												}
@@ -288,6 +492,12 @@
 																	"text": "AppointmentModel receives the Appointment object, patientId, userId, and type."
 																}
 															]
+														},
+														{
+															"type": "paragraph",
+															"attrs": {
+																"dir": "auto"
+															}
 														}
 													]
 												}
@@ -370,17 +580,25 @@
 			"typeName": "shape"
 		},
 		{
-			"id": "pointer:pointer",
-			"typeName": "pointer",
-			"x": 920.7435285728496,
-			"y": 766.4913357629604,
-			"lastActivityTimestamp": 1748459175482,
-			"meta": {}
+			"meta": {},
+			"id": "page:page",
+			"name": "Page 1",
+			"index": "a1",
+			"typeName": "page"
+		},
+		{
+			"gridSize": 10,
+			"name": "",
+			"meta": {},
+			"id": "document:document",
+			"typeName": "document"
 		},
 		{
 			"followingUserId": null,
 			"opacityForNextShape": 1,
-			"stylesForNextShape": {},
+			"stylesForNextShape": {
+				"tldraw:geo": "rectangle"
+			},
 			"brush": null,
 			"scribbles": [],
 			"cursor": {
@@ -395,7 +613,7 @@
 				"x": 0,
 				"y": 0,
 				"w": 1215,
-				"h": 732
+				"h": 720
 			},
 			"insets": [
 				false,
@@ -421,68 +639,6 @@
 			"id": "instance:instance",
 			"currentPageId": "page:page",
 			"typeName": "instance"
-		},
-		{
-			"editingShapeId": "shape:s7TLfb1Y1mI31o-GEReI5",
-			"croppingShapeId": null,
-			"selectedShapeIds": [
-				"shape:s7TLfb1Y1mI31o-GEReI5"
-			],
-			"hoveredShapeId": "shape:WBbg6JTN00r6GR6GaBZ6F",
-			"erasingShapeIds": [],
-			"hintingShapeIds": [],
-			"focusedGroupId": null,
-			"meta": {},
-			"id": "instance_page_state:page:page",
-			"pageId": "page:page",
-			"typeName": "instance_page_state"
-		},
-		{
-			"x": 386.8146244745079,
-			"y": 45.58629472963856,
-			"z": 0.6006006774304875,
-			"meta": {},
-			"id": "camera:page:page",
-			"typeName": "camera"
-		},
-		{
-			"x": 115.6641003100284,
-			"y": 903.979402040512,
-			"rotation": 0,
-			"isLocked": false,
-			"opacity": 1,
-			"meta": {},
-			"id": "shape:s7TLfb1Y1mI31o-GEReI5",
-			"type": "text",
-			"props": {
-				"color": "black",
-				"size": "m",
-				"w": 1136.0078125,
-				"font": "draw",
-				"textAlign": "start",
-				"autoSize": true,
-				"scale": 1,
-				"richText": {
-					"type": "doc",
-					"content": [
-						{
-							"type": "paragraph",
-							"attrs": {
-								"dir": "auto"
-							},
-							"content": [
-								{
-									"type": "text",
-									"text": "page.tsx -> Datatable.tsx -> columns.tsx -> AppointmentMode.tsx -> AppointmentForm.tsx "
-								}
-							]
-						}
-					]
-				}
-			},
-			"parentId": "page:page",
-			"index": "a21lU",
-			"typeName": "shape"
 		}
 	]
 }

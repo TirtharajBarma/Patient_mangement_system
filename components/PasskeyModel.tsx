@@ -34,14 +34,27 @@ const PasskeyModel = () => {
     }
   }, [path]);
 
-  const validatePassKey = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const validatePassKey = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    setError("");
+    
+    try {
+      const res = await fetch("/api/admin-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ passkey }),
+      });
 
-    if (passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
-      setOpen(false);
-      router.push("/admin");
-    } else {
-      setError("Invalid passkey. Please try again.");
+      if (res.ok) {
+        setOpen(false);
+        router.push("/admin");
+      } 
+      else {
+        setError("Invalid passkey. Please try again.");
+      }
+    } 
+    catch (err) {
+      setError("Something went wrong. Please try again.");
     }
   };
 

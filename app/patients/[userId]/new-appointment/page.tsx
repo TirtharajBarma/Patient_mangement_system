@@ -35,12 +35,12 @@ export default async function NewAppointment({params}: SearchParamProps) {
       <section className="remove-scrollbar container my-auto">
         <div className="sub-container max-w-[866px] flex-1 justify-between">
           
-          <div className="flex items-center justify-between mb-6">
-            <Image src='/assets/icons/logo-full.svg' 
-              height={1000} 
-              width={1000} 
-              alt="patient" 
-              className="mb-12 h-10 w-fit" />
+          <div className="flex items-center justify-between">
+            <Image src='/assets/icons/medinest-logo.png' 
+                height={300} 
+                width={300} 
+                alt="patient" 
+                className="h-[190px] w-fit -my-8" />
             <Link href={`/patients/${userId}/register`}>
               <Button variant="outline" className="ml-4">Back to Patient Form</Button>
             </Link>
