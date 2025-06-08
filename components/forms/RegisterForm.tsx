@@ -64,14 +64,23 @@ const RegisterForm = ({ user }: { user: User }) => {
     }
 
     try {
-      const patientData = {
+       const patientData = {
         ...values,
         userId: user.$id,
         birthDate: new Date(values.birthDate),
         identificationDocument: formData,
+        primaryPhysician: values.primaryPhysician || "",
+        insuranceProvider: values.insuranceProvider || "",
+        insurancePolicyNumber: values.insurancePolicyNumber || "",
+        allergies: values.allergies || "",
+        currentMedication: values.currentMedication || "",
+        familyMedicalHistory: values.familyMedicalHistory || "",
+        pastMedicalHistory: values.pastMedicalHistory || "",
+        identificationType: values.identificationType || "",
+        identificationNumber: values.identificationNumber || "",
       };
 
-      // @ts-ignore
+      
       const patient = await registerPatient(patientData);
       if (patient) {
         form.reset(); // Reset after successful submission
