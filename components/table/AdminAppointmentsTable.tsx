@@ -6,9 +6,10 @@ import { columns } from "./columns";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
+import { Appointment } from "@/types/appwrite.types";
 
 interface AdminAppointmentsTableProps {
-  appointments: any[];
+  appointments: Appointment[];
 }
 
 const FILTERS = [
