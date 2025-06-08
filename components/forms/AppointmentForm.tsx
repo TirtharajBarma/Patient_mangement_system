@@ -91,7 +91,7 @@ const AppointmentForm = ({userId, patientId, type, appointment, setOpen}: {
 
             const appointmentToUpdate = {
                 userId,
-                appointmentId: appointment?.$id!,
+                appointmentId: appointment?.$id || '',
                 appointment: {
                     primaryPhysician: values?.primaryPhysician,
                     schedule: new Date(values?.schedule),
@@ -103,7 +103,7 @@ const AppointmentForm = ({userId, patientId, type, appointment, setOpen}: {
 
             const updatedAppointment = await updateAppointment(appointmentToUpdate);
             if(updatedAppointment){
-                setOpen && setOpen(false);
+                if (setOpen) setOpen(false);
                 form.reset();
             }
         }

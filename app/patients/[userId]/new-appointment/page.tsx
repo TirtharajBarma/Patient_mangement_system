@@ -1,16 +1,13 @@
 import Image from "next/image";
-import styles from "./page.module.css";
 import { Button } from "@/components/ui/button";
-import PatientForm from "@/components/forms/PatientForm";
 import Link from "next/link";
-import AppointmentForm from "@/components/forms/AppointmentForm";
 import PatientAppointmentWrapper from "@/components/forms/PatientAppointmentWrapper";
-import { getPatient, getPatients } from "@/lib/actions/patient.actions";
+import { getPatients } from "@/lib/actions/patient.actions";
 import { Patient } from "@/types/appwrite.types";
 
-// ✅ Correct
-export default async function NewAppointment({params}: SearchParamProps) {
-  const resolvedParams = await params;
+// Next.js 15 expects params to be a Promise<any> for app directory pages
+export default async function NewAppointment({ params }: { params?: Promise<Record<string, string>> }) {
+  const resolvedParams = params ? await params : {};
   const { userId } = resolvedParams;
   
   const patients: Patient[] = await getPatients(userId);

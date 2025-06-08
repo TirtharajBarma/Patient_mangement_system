@@ -1,20 +1,17 @@
 import React from 'react';
 import {
-  Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Control } from 'react-hook-form';
+import { Control, FieldValues, ControllerRenderProps, Path } from 'react-hook-form';
 import { FormFieldType } from './forms/PatientForm';
 import Image from 'next/image';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
-import E164Number from "react-phone-number-input";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Select, SelectContent, SelectTrigger, SelectValue } from './ui/select';
@@ -22,10 +19,10 @@ import { Textarea } from './ui/textarea';
 import { Checkbox } from './ui/checkbox';
 import "../styles/DatePickerStyles.css";
 
-interface CustomProps {
-  control: Control<any>;
+interface CustomProps<T extends FieldValues = FieldValues> {
+  control: Control<T>;
   fieldType: FormFieldType;
-  name: string;
+  name: Path<T>;
   label?: string;
   placeholder?: string;
   iconSrc?: string;
@@ -35,10 +32,10 @@ interface CustomProps {
   showTimeSelect?: boolean;
   children?: React.ReactNode;
   autoComplete?: string;
-  renderSkeleton?: (field: any) => React.ReactNode;
+  renderSkeleton?: (field: ControllerRenderProps<T, Path<T>>) => React.ReactNode;
 }
 
-const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
+const RenderInput = <T extends FieldValues>({ field, props }: { field: ControllerRenderProps<T, Path<T>>; props: CustomProps<T> }) => {
   const { fieldType, iconSrc, iconAlt, placeholder, showTimeSelect, dateFormat, renderSkeleton } = props;
 
   switch (fieldType) {
@@ -59,12 +56,11 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               placeholder={placeholder}
               {...field}
               className='shad-input border-0 w-full'
-              autoComplete={props.autoComplete} // Pass autoComplete prop
+              autoComplete={props.autoComplete}
             />
           </FormControl>
         </div>
       );
-
     case FormFieldType.PHONE_INPUT:
       return (
         <FormControl>
@@ -79,7 +75,6 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           />
         </FormControl>
       );
-
     case FormFieldType.DATE_PICKER:
       return (
         <div className='flex rounded-md border border-dark-500 bg-dark-400 w-full'>
@@ -98,19 +93,17 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               showTimeSelect={showTimeSelect ?? false}
               timeInputLabel='time'
               wrapperClassName='date-picker w-full'
-              showYearDropdown // Enable year dropdown
-              yearDropdownItemNumber={100} // Show 100 years in the dropdown (e.g., 1925-2025)
-              scrollableYearDropdown // Make the year dropdown scrollable
-              maxDate={new Date()} // Prevent selecting future dates for birth date
-              autoComplete={props.autoComplete} // Pass autoComplete prop
+              showYearDropdown
+              yearDropdownItemNumber={100}
+              scrollableYearDropdown
+              maxDate={new Date()}
+              autoComplete={props.autoComplete}
             />
           </FormControl>
         </div>
       );
-
     case FormFieldType.SKELETON:
       return renderSkeleton ? renderSkeleton(field) : null;
-
     case FormFieldType.SELECT:
       return (
         <FormControl>
@@ -126,7 +119,6 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           </Select>
         </FormControl>
       );
-
     case FormFieldType.TEXTAREA:
       return (
         <FormControl>
@@ -138,31 +130,28 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           />
         </FormControl>
       );
-
     case FormFieldType.CHECKBOX:
       return (
         <FormControl>
           <div className='flex items-center gap-4'>
             <Checkbox
-              id={props.name}
+              id={props.name as string}
               checked={field.value}
               onCheckedChange={field.onChange}
             />
-            <label className='checkbox-label' htmlFor={props.name}>
+            <label className='checkbox-label' htmlFor={props.name as string}>
               {props.label}
             </label>
           </div>
         </FormControl>
       );
-
     default:
       return null;
   }
 };
 
-const CustomFormField = (props: CustomProps) => {
+const CustomFormField = <T extends FieldValues = FieldValues>(props: CustomProps<T>) => {
   const { control, fieldType, name, label } = props;
-
   return (
     <div className='w-full'>
       <FormField

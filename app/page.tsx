@@ -1,14 +1,12 @@
 import Image from "next/image";
-import styles from "./page.module.css";
-import { Button } from "@/components/ui/button";
 import PatientForm from "@/components/forms/PatientForm";
 import Link from "next/link";
 import PasskeyModel from "@/components/PasskeyModel";
 
-export default async function Home({searchParams}: SearchParamProps) {
-
-  const resolvedSearchParams = await searchParams;
-  const isAdmin = resolvedSearchParams.admin === 'true';
+// Use a more specific type for searchParams
+export default async function Home({ searchParams }: { searchParams?: Promise<Record<string, string | string[] | undefined>> }) {
+  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const isAdmin = resolvedSearchParams?.admin === 'true';
 
   return(
     <div className="flex h-screen max-h-screen">

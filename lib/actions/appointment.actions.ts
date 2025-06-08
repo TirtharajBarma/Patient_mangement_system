@@ -89,38 +89,6 @@ export const getRecentAppointmentList = async() => {
     }
 }
 
-export const updateAppointment = async({appointmentId, userId, appointment, type}: UpdateAppointmentParams) => {
-    try {
-        const updatedAppointment = await databases.updateDocument(
-            DATABASE_ID!,
-            APPOINTMENT_COLLECTION_ID!,
-            appointmentId,
-            appointment
-        )
-        if(!updatedAppointment){
-            throw new Error('Appointment not found');
-        }
-        else{
-            // SMS notification
-            const smsMessage = `
-            Hi, it's Tirtharaj [admin].
-            ${type === 'schedule' 
-                ? `your appointment has been scheduled for ${formatDateTime(appointment.schedule!).dateTime} with Dr. ${appointment.primaryPhysician}`
-                : `We regret to inform you that your appointment has been cancelled for the following reason. Reason: ${appointment.cancellationReason}`
-             }
-            `
-
-            await sendSMSNotification(userId, smsMessage);
-        }
-
-        revalidatePath('/admin');
-        return JSON.parse(JSON.stringify(updatedAppointment));
-
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 export const sendSMSNotification = async(userId: string, content: string) => {
     try {
         const message = await messaging.createSms(
@@ -131,6 +99,73 @@ export const sendSMSNotification = async(userId: string, content: string) => {
         )
 
         return JSON.parse(JSON.stringify(message)); 
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const sendEmailNotification = async(userId: string, subject: string, content: string) => {
+    try {
+        const message = await messaging.createEmail(
+            ID.unique(),
+            subject,
+            content,
+            [],
+            [userId]
+        );
+        return JSON.parse(JSON.stringify(message));
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateAppointment = async({appointmentId, userId, appointment, type}: UpdateAppointmentParams) => {
+    try {
+        const updatedAppointment = await databases.updateDocument(
+            DATABASE_ID!,
+            APPOINTMENT_COLLECTION_ID!,
+            appointmentId,
+            appointment
+        )
+
+        if(!updatedAppointment){
+            throw new Error('Appointment not found');
+        }
+
+        else{
+            // SMS notification
+            const smsMessage = `\nHi, it's Tirtharaj [admin].\n${type === 'schedule' 
+                ? `Your appointment has been scheduled for ${formatDateTime(appointment.schedule!).dateTime} with Dr. ${appointment.primaryPhysician}.`
+                : `We regret to inform you that your appointment has been cancelled. Reason: ${appointment.cancellationReason}`
+             }\n`;
+            await sendSMSNotification(userId, smsMessage);
+
+            // Email notification with HTML template
+            const emailSubject = type === 'schedule'
+                ? 'Your Appointment is Scheduled'
+                : 'Your Appointment has been Cancelled';
+                
+            const emailBody = `
+                <div style="font-family: Arial, sans-serif; background: #f9f9f9; padding: 32px;">
+                  <div style="max-width: 480px; margin: auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 32px;">
+                    <h2 style="color: #2e7d32; margin-bottom: 16px;">${emailSubject}</h2>
+                    <p style="font-size: 16px; color: #333;">Dear Patient,</p>
+                    <p style="font-size: 16px; color: #333;">
+                      ${type === 'schedule'
+                        ? `We are pleased to inform you that your appointment has been <b>scheduled</b> for <b>${formatDateTime(appointment.schedule!).dateTime}</b> with <b>Dr. ${appointment.primaryPhysician}</b>.`
+                        : `We regret to inform you that your appointment has been <b>cancelled</b>.<br><b>Reason:</b> ${appointment.cancellationReason}`}
+                    </p>
+                    <hr style="margin: 24px 0; border: none; border-top: 1px solid #eee;" />
+                    <p style="font-size: 14px; color: #888;">If you have any questions, please reply to this email.<br>Thank you,<br><b>Tirtharaj [admin]</b></p>
+                  </div>
+                </div>
+            `;
+            await sendEmailNotification(userId, emailSubject, emailBody);
+        }
+
+        revalidatePath('/admin');
+        return JSON.parse(JSON.stringify(updatedAppointment));
+
     } catch (error) {
         console.log(error);
     }

@@ -53,8 +53,8 @@ const PasskeyModel = () => {
         setError("Invalid passkey. Please try again.");
       }
     } 
-    catch (err) {
-      setError("Something went wrong. Please try again.");
+    catch {
+      setError("Invalid passkey. Please try again.");
     }
   };
 

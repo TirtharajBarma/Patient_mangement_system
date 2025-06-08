@@ -2,8 +2,6 @@
 
 // help from DataTable shadcn
 import { ColumnDef } from "@tanstack/react-table"
-import { Button } from "@/components/ui/button"
-import { MoreHorizontal } from "lucide-react"
 import { formatDateTime } from "@/lib/utils"
 import { Doctors } from "@/constants"
 import Image from "next/image"

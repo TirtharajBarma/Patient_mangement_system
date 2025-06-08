@@ -15,9 +15,9 @@ export const createUser = async(user: CreateUserParams) => {
         )
         return newUser;
         
-    } catch (error: any) {
+    } catch (error: unknown) {
         // if user exists
-        if(error && error?.code === 409){
+        if (error && typeof error === 'object' && 'code' in error && (error as { code?: number }).code === 409) {
             const documents = await users.list([
                 Query.equal('email', [user.email])
             ])

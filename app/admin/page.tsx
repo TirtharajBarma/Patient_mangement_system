@@ -25,7 +25,7 @@ const page = async() => {
     try {
       const decoded = jwt.verify(token, JWT_SECRET) as { role?: string };
       isAdmin = decoded.role === "admin";
-    } catch (err) {
+    } catch {
       isAdmin = false;
     }
   }

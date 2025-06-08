@@ -6,14 +6,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const SuccessPage = async ({params, searchParams}: SearchParamProps) => {
+const SuccessPage = async ({ params, searchParams }: { params?: Promise<Record<string, string>>; searchParams?: Promise<Record<string, string | string[] | undefined>> }) => {
     // Await params and searchParams before accessing their properties
-    const { userId } = await params;
-    const resolvedSearchParams = await searchParams;
-    
+    const resolvedParams = params ? await params : {};
+    const resolvedSearchParams = searchParams ? await searchParams : {};
+    const { userId } = resolvedParams;
     const appointmentId = (resolvedSearchParams?.appointmentId as string) || '';
     const appointment = await getAppointment(appointmentId);
-
     const doctor = Doctors.find((doc) => doc.name === appointment.primaryPhysician)
 
   return (
@@ -45,7 +44,7 @@ const SuccessPage = async ({params, searchParams}: SearchParamProps) => {
             <p>Requested appointment details</p>
             <div className='flex items-center gap-3'>
                 <Image 
-                    src={doctor?.image!}
+                    src={doctor?.image || '/assets/images/default-doctor.png'}
                     alt='doctor'
                     width={100}
                     height={100}
