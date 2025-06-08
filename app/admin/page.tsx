@@ -9,6 +9,7 @@ import { columns } from '@/components/table/columns'
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
+import AdminAppointmentsTable from '@/components/table/AdminAppointmentsTable';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -34,7 +35,6 @@ const page = async() => {
     redirect("/");
   }
   const appointments = await getRecentAppointmentList();
-  // console.log('Appointments Data:', appointments.documents);
 
   return (
     <div className='mx-auto flex max-w-7xl flex-col space-y-14'>
@@ -46,7 +46,12 @@ const page = async() => {
                 alt="patient" 
                 className="h-[165px] w-fit -my-8" />
         </Link>
-        <p className='text-16-semibold'>Admin Dashboard</p>
+        <div className="flex items-center gap-4">
+          <p className='text-16-semibold'>Admin Dashboard</p>
+          <form action="/api/admin-logout" method="POST">
+            <button type="submit" className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 transition">Logout</button>
+          </form>
+        </div>
       </header>
 
       <main className='admin-main'>
@@ -80,8 +85,8 @@ const page = async() => {
         </section>
 
         {/* main section */}
-        {/* dataTable */}
-        <DataTable data={appointments.documents} columns={columns} />
+        {/* dataTable with filter dropdown */}
+        <AdminAppointmentsTable appointments={appointments.documents} />
 
       </main>
 
